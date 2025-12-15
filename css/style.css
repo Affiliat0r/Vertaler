@@ -1544,6 +1544,10 @@ p {
     justify-content: center;
   }
 
+  .hero-buttons .btn-icon {
+    width: auto;
+  }
+
   .benefits {
     margin-top: 0;
     padding-top: var(--spacing-2xl);
