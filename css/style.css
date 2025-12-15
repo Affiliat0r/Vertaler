@@ -581,8 +581,7 @@ p {
   display: inline;
 }
 
-.typewriter-active::after {
-  content: '';
+.typewriter-cursor {
   display: inline-block;
   width: 3px;
   height: 1em;
@@ -590,10 +589,6 @@ p {
   margin-left: 2px;
   vertical-align: text-bottom;
   animation: blink-caret 0.7s step-end infinite;
-}
-
-.typewriter-done::after {
-  display: none;
 }
 
 @keyframes blink-caret {
