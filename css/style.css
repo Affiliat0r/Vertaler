@@ -468,14 +468,31 @@ p {
 .btn-icon {
   padding: var(--spacing-md);
   border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+.btn-icon svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .btn-icon.btn-sm {
   padding: var(--spacing-sm);
 }
 
+.btn-icon.btn-sm svg {
+  width: 18px;
+  height: 18px;
+}
+
 .btn-icon.btn-lg {
   padding: var(--spacing-lg);
+}
+
+.btn-icon.btn-lg svg {
+  width: 24px;
+  height: 24px;
 }
 
 /* --------------------------------------------------------------------------
@@ -552,34 +569,36 @@ p {
   font-weight: var(--font-weight-bold);
 }
 
-/* Typewriter container - reserves space to prevent layout shifts */
+/* Typewriter container */
 .hero-title {
   display: block;
   width: 100%;
   min-height: calc(var(--font-size-5xl) * 1.25);
 }
 
-/* Typewriter Effect - Pure CSS */
+/* Typewriter Effect - JavaScript based */
 .typewriter {
-  display: inline-block;
-  overflow: hidden;
-  border-right: 3px solid var(--color-accent);
-  white-space: nowrap;
-  vertical-align: top;
-  max-width: 0;
-  animation:
-    typing 4s steps(44, end) forwards,
-    blink-caret 0.7s step-end infinite;
+  display: inline;
 }
 
-@keyframes typing {
-  from { max-width: 0; }
-  to { max-width: 100%; }
+.typewriter-active::after {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: var(--color-accent);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink-caret 0.7s step-end infinite;
+}
+
+.typewriter-done::after {
+  display: none;
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent; }
-  50% { border-color: var(--color-accent); }
+  from, to { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 .hero-subtitle {
@@ -1517,17 +1536,8 @@ p {
     padding: calc(70px + var(--spacing-3xl)) 0 var(--spacing-3xl);
   }
 
-  /* Disable typewriter animation on mobile to prevent text clipping */
   .hero-title {
     min-height: auto;
-  }
-
-  .typewriter {
-    white-space: normal;
-    max-width: none;
-    overflow: visible;
-    border-right: none;
-    animation: none;
   }
 
   .hero-buttons {

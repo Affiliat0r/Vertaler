@@ -15,6 +15,7 @@
     initFileUpload();
     initContactForm();
     initAnimations();
+    initTypewriter();
   });
 
   /**
@@ -356,6 +357,47 @@
     };
 
     return texts[lang]?.[key] || texts.nl[key] || key;
+  }
+
+  /**
+   * Typewriter effect for hero title
+   * SEO-friendly: keeps original text in DOM, uses span wrapping for visual effect
+   */
+  function initTypewriter() {
+    const element = document.querySelector('.typewriter');
+    if (!element) return;
+
+    const text = element.textContent;
+
+    // Wrap each character in a span, keeping text in DOM for SEO
+    element.innerHTML = text.split('').map(function(char) {
+      // Preserve spaces as non-breaking for consistent spacing
+      var displayChar = char === ' ' ? '&nbsp;' : char;
+      return '<span class="typewriter-char" style="visibility:hidden">' + displayChar + '</span>';
+    }).join('');
+
+    element.classList.add('typewriter-active');
+
+    var chars = element.querySelectorAll('.typewriter-char');
+    var index = 0;
+    var speed = 80; // ms per character
+
+    function type() {
+      if (index < chars.length) {
+        chars[index].style.visibility = 'visible';
+        index++;
+        setTimeout(type, speed);
+      } else {
+        // Remove cursor after typing is done
+        setTimeout(function() {
+          element.classList.remove('typewriter-active');
+          element.classList.add('typewriter-done');
+        }, 1500);
+      }
+    }
+
+    // Start typing after a short delay
+    setTimeout(type, 500);
   }
 
   /**
