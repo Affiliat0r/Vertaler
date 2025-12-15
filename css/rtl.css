@@ -1,0 +1,339 @@
+/* ==========================================================================
+   RTL (Right-to-Left) Styles for Arabic
+   ========================================================================== */
+
+[dir="rtl"] {
+  /* Typography - Mirza for body text */
+  font-family: var(--font-arabic), var(--font-body);
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  /* Typography - Kufam for headings */
+  font-family: var(--font-arabic-heading), var(--font-heading);
+}
+
+/* Text alignment */
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* --------------------------------------------------------------------------
+   Header & Navigation RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .header-inner {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-menu {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .lang-switcher {
+  margin-left: 0;
+  margin-right: var(--spacing-lg);
+  padding-left: 0;
+  padding-right: var(--spacing-lg);
+  border-left: none;
+  border-right: 1px solid var(--color-border);
+}
+
+[dir="rtl"] .nav-link::after {
+  left: auto;
+  right: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Hero RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .hero::before {
+  right: auto;
+  left: -10%;
+}
+
+[dir="rtl"] .hero::after {
+  left: auto;
+  right: -10%;
+}
+
+[dir="rtl"] .hero-content {
+  text-align: right;
+}
+
+[dir="rtl"] .hero-badge {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hero-location {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hero-buttons {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   Benefits RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .benefit-card {
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   Documents RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .document-tag {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   Process Steps RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .process-steps::before {
+  left: 12.5%;
+  right: 12.5%;
+}
+
+[dir="rtl"] .process-step {
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   Pricing RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .pricing-feature {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .pricing-feature svg {
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   About RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .about-content {
+  grid-template-columns: 2fr 1fr;
+}
+
+[dir="rtl"] .about-badge {
+  right: auto;
+  left: -20px;
+}
+
+[dir="rtl"] .about-text {
+  text-align: right;
+}
+
+[dir="rtl"] .about-credentials {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .credential {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   FAQ RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .faq-question {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .faq-answer-inner {
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   Contact RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .contact-grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .contact-info {
+  text-align: right;
+}
+
+[dir="rtl"] .contact-method {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .contact-method-text {
+  text-align: right;
+}
+
+[dir="rtl"] .form-group label {
+  text-align: right;
+}
+
+[dir="rtl"] .form-group input,
+[dir="rtl"] .form-group textarea,
+[dir="rtl"] .form-group select {
+  text-align: right;
+}
+
+[dir="rtl"] .checkbox-group {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .checkbox-group label {
+  text-align: right;
+}
+
+[dir="rtl"] .file-upload-text {
+  direction: rtl;
+}
+
+/* --------------------------------------------------------------------------
+   Footer RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .footer-content {
+  grid-template-columns: 1fr 1fr 2fr;
+  direction: rtl;
+}
+
+[dir="rtl"] .footer-brand {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-links {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-contact-item {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .footer-credentials {
+  align-items: flex-end;
+}
+
+[dir="rtl"] .footer-bottom {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-payment {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   WhatsApp Float RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .whatsapp-float {
+  right: auto;
+  left: 24px;
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .btn {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   Services RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .services-content {
+  text-align: right;
+}
+
+[dir="rtl"] .services-highlight {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   Section Headers RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .section-header {
+  text-align: right;
+}
+
+[dir="rtl"] .section-header h2::after {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+/* Center section headers in RTL */
+[dir="rtl"] .section-header.text-center {
+  text-align: center;
+}
+
+[dir="rtl"] .section-header.text-center h2::after {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* --------------------------------------------------------------------------
+   Express Card RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .express-card {
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive RTL
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  [dir="rtl"] .nav-menu {
+    flex-direction: column;
+  }
+
+  [dir="rtl"] .lang-switcher {
+    margin-right: 0;
+    padding-right: 0;
+    border-right: none;
+  }
+
+  [dir="rtl"] .about-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  [dir="rtl"] .about-text {
+    text-align: center;
+  }
+
+  [dir="rtl"] .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  [dir="rtl"] .footer-brand,
+  [dir="rtl"] .footer-links {
+    text-align: center;
+  }
+
+  [dir="rtl"] .footer-contact-item {
+    justify-content: center;
+  }
+
+  [dir="rtl"] .footer-credentials {
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  [dir="rtl"] .hero-buttons {
+    flex-direction: column;
+  }
+
+  [dir="rtl"] .whatsapp-float {
+    left: 16px;
+  }
+}

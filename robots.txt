@@ -1,0 +1,11 @@
+# Robots.txt for vertaler-arabisch.nl
+# Beëdigd Vertaler Arabisch - Marwan Mrait
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://vertaler-arabisch.nl/sitemap.xml
+
+# Crawl-delay (optional, for polite crawling)
+Crawl-delay: 1

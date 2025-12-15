@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m http.server:*)",
+      "Bash(dir:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(start \"\" \"http://localhost:3000\")",
+      "Bash(start \"\" \"c:\\Users\\hasaat\\Documents\\Personal\\Vertaler\\index.html\")",
+      "Bash(vercel --version:*)",
+      "Bash(vercel:*)",
+      "Bash(copy:*)",
+      "Bash(cmd /c copy \"c:\\Users\\hasaat\\Documents\\Personal\\Vertaler\\logo.png\" \"c:\\Users\\hasaat\\Documents\\Personal\\Vertaler\\images\\logo.png\")",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)"
+    ]
+  }
+}
