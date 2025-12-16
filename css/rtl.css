@@ -81,10 +81,15 @@
 }
 
 /* --------------------------------------------------------------------------
-   Benefits RTL
+   Benefits RTL - Centered text for benefit cards
    -------------------------------------------------------------------------- */
 [dir="rtl"] .benefit-card {
-  text-align: right;
+  text-align: center;
+}
+
+[dir="rtl"] .benefit-card h3,
+[dir="rtl"] .benefit-card p {
+  text-align: center;
 }
 
 /* --------------------------------------------------------------------------
@@ -95,7 +100,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Process Steps RTL
+   Process Steps RTL - Centered text under numbers
    -------------------------------------------------------------------------- */
 [dir="rtl"] .process-steps::before {
   left: 12.5%;
@@ -103,7 +108,12 @@
 }
 
 [dir="rtl"] .process-step {
-  text-align: right;
+  text-align: center;
+}
+
+[dir="rtl"] .process-step h3,
+[dir="rtl"] .process-step p {
+  text-align: center;
 }
 
 /* --------------------------------------------------------------------------
@@ -280,10 +290,15 @@
 }
 
 /* --------------------------------------------------------------------------
-   Express Card RTL
+   Express Card RTL - Centered text
    -------------------------------------------------------------------------- */
 [dir="rtl"] .express-card {
-  text-align: right;
+  text-align: center;
+}
+
+[dir="rtl"] .express-card h3,
+[dir="rtl"] .express-card p {
+  text-align: center;
 }
 
 /* --------------------------------------------------------------------------
