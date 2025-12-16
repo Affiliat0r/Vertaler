@@ -949,6 +949,14 @@ p {
   box-shadow: 0 0 30px var(--color-accent-glow);
 }
 
+/* Center the button properly on all screen sizes */
+.express-card .btn {
+  display: flex;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* --------------------------------------------------------------------------
    About Section
    -------------------------------------------------------------------------- */
@@ -975,6 +983,13 @@ p {
   color: var(--color-accent);
   font-size: var(--font-size-5xl);
   font-weight: var(--font-weight-bold);
+}
+
+.about-photo {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .about-badge {
