@@ -329,17 +329,39 @@
     text-align: center;
   }
 
-  [dir="rtl"] .footer-brand,
+  /* RTL Mobile footer brand - logo on top, text right-aligned */
+  [dir="rtl"] .footer-brand {
+    text-align: right;
+  }
+
+  [dir="rtl"] .footer-brand .logo-footer {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  [dir="rtl"] .footer-brand .logo-text {
+    align-items: flex-end;
+  }
+
+  [dir="rtl"] .footer-brand .logo-name,
+  [dir="rtl"] .footer-brand .logo-motto {
+    text-align: right;
+  }
+
+  [dir="rtl"] .footer-brand p {
+    text-align: right;
+  }
+
+  [dir="rtl"] .footer-credentials {
+    justify-content: flex-end;
+  }
+
   [dir="rtl"] .footer-links {
     text-align: center;
   }
 
   [dir="rtl"] .footer-contact-item {
     justify-content: center;
-  }
-
-  [dir="rtl"] .footer-credentials {
-    align-items: center;
   }
 }
 

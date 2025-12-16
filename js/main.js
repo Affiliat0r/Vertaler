@@ -6,8 +6,16 @@
 (function() {
   'use strict';
 
+  // Supabase Configuration
+  const SUPABASE_URL = 'https://knwpwdbqosdjwxfmwnro.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtud3B3ZGJxb3Nkand4Zm13bnJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5MDkxNDksImV4cCI6MjA4MTQ4NTE0OX0.GzacLND_vgezceshT7hSe7FREAaEfeaj73cFmC47f38';
+
+  // Initialize Supabase client (will be set after library loads)
+  let supabase = null;
+
   // DOM Ready
   document.addEventListener('DOMContentLoaded', function() {
+    initSupabase();
     initHeader();
     initMobileMenu();
     initSmoothScroll();
@@ -17,6 +25,15 @@
     initAnimations();
     initTypewriter();
   });
+
+  /**
+   * Initialize Supabase client
+   */
+  function initSupabase() {
+    if (window.supabase) {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+  }
 
   /**
    * Header scroll effect
@@ -242,14 +259,14 @@
   }
 
   /**
-   * Contact form handling
+   * Contact form handling with Supabase integration
    */
   function initContactForm() {
     const form = document.getElementById('contactForm');
 
     if (!form) return;
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
 
       // Basic validation
@@ -280,18 +297,67 @@
 
       // Get form data
       const formData = new FormData(form);
-
-      // Here you would normally send the form data to a server
-      // For now, we'll show a success message and optionally open WhatsApp
-
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
 
       submitBtn.disabled = true;
       submitBtn.innerHTML = getLocalizedText('sending');
 
-      // Simulate form submission
-      setTimeout(function() {
+      try {
+        // Upload files to Supabase Storage (if any)
+        const fileUrls = [];
+        const fileInput = document.getElementById('files');
+
+        if (fileInput && fileInput.files.length > 0 && supabase) {
+          const timestamp = Date.now();
+
+          for (let i = 0; i < fileInput.files.length; i++) {
+            const file = fileInput.files[i];
+            const fileName = `${timestamp}_${i}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+
+            const { data, error } = await supabase.storage
+              .from('documents')
+              .upload(fileName, file);
+
+            if (error) {
+              console.error('File upload error:', error);
+            } else if (data) {
+              fileUrls.push(data.path);
+            }
+          }
+        }
+
+        // Prepare submission data
+        const sourceLang = formData.get('source_language');
+        const targetLang = formData.get('target_language');
+        const languageDirection = sourceLang && targetLang ? `${sourceLang} → ${targetLang}` : null;
+
+        const submissionData = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          phone: formData.get('phone') || null,
+          document_type: null,
+          language_direction: languageDirection,
+          message: formData.get('message') || '',
+          whatsapp_followup: false,
+          file_urls: fileUrls,
+          status: 'new'
+        };
+
+        // Submit to Supabase
+        if (supabase) {
+          const { error } = await supabase
+            .from('contact_submissions')
+            .insert([submissionData]);
+
+          if (error) {
+            console.error('Submission error:', error);
+            // Fall back to WhatsApp if database fails
+            throw new Error('Database submission failed');
+          }
+        }
+
+        // Success
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
 
@@ -307,15 +373,31 @@
         // Optional: Open WhatsApp with pre-filled message
         const openWhatsApp = confirm(getLocalizedText('openWhatsApp'));
         if (openWhatsApp) {
-          const name = formData.get('name');
-          const sourceLang = formData.get('source_language');
-          const targetLang = formData.get('target_language');
+          const name = submissionData.name;
+          const langDir = submissionData.language_direction || '';
           const message = encodeURIComponent(
-            `Hallo, ik wil graag een vertaling aanvragen.\n\nNaam: ${name}\nVan: ${sourceLang}\nNaar: ${targetLang}`
+            `Hallo, ik wil graag een vertaling aanvragen.\n\nNaam: ${name}\nRichting: ${langDir}`
           );
           window.open(`https://wa.me/31649815585?text=${message}`, '_blank');
         }
-      }, 1500);
+
+      } catch (error) {
+        console.error('Form submission error:', error);
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+
+        // Fallback: Open WhatsApp directly if Supabase fails
+        const confirmWhatsApp = confirm(getLocalizedText('submissionErrorWhatsApp'));
+        if (confirmWhatsApp) {
+          const name = formData.get('name');
+          const email = formData.get('email');
+          const messageText = formData.get('message');
+          const whatsappMessage = encodeURIComponent(
+            `Hallo, ik wil graag een vertaling aanvragen.\n\nNaam: ${name}\nEmail: ${email}\nBericht: ${messageText}`
+          );
+          window.open(`https://wa.me/31649815585?text=${whatsappMessage}`, '_blank');
+        }
+      }
     });
 
     // Clear error state on input
@@ -338,21 +420,24 @@
         fillRequiredFields: 'Vul alle verplichte velden in.',
         sending: 'Versturen...',
         formSuccess: 'Bedankt voor uw aanvraag! U ontvangt zo snel mogelijk een reactie.',
-        openWhatsApp: 'Wilt u ook via WhatsApp contact opnemen voor een snellere reactie?'
+        openWhatsApp: 'Wilt u ook via WhatsApp contact opnemen voor een snellere reactie?',
+        submissionErrorWhatsApp: 'Er is iets misgegaan. Wilt u uw aanvraag via WhatsApp versturen?'
       },
       en: {
         pleaseAcceptPrivacy: 'Please accept the privacy policy to continue.',
         fillRequiredFields: 'Please fill in all required fields.',
         sending: 'Sending...',
         formSuccess: 'Thank you for your request! You will receive a response as soon as possible.',
-        openWhatsApp: 'Would you also like to contact via WhatsApp for a faster response?'
+        openWhatsApp: 'Would you also like to contact via WhatsApp for a faster response?',
+        submissionErrorWhatsApp: 'Something went wrong. Would you like to send your request via WhatsApp?'
       },
       ar: {
         pleaseAcceptPrivacy: 'يرجى الموافقة على سياسة الخصوصية للمتابعة.',
         fillRequiredFields: 'يرجى ملء جميع الحقول المطلوبة.',
         sending: 'جاري الإرسال...',
         formSuccess: 'شكراً لطلبك! ستتلقى رداً في أقرب وقت ممكن.',
-        openWhatsApp: 'هل تريد أيضاً التواصل عبر واتساب للحصول على رد أسرع؟'
+        openWhatsApp: 'هل تريد أيضاً التواصل عبر واتساب للحصول على رد أسرع؟',
+        submissionErrorWhatsApp: 'حدث خطأ ما. هل تريد إرسال طلبك عبر واتساب؟'
       }
     };
 
