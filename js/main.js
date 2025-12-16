@@ -357,6 +357,31 @@
           }
         }
 
+        // Send email notification via Vercel API
+        try {
+          const emailResponse = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: submissionData.name,
+              email: submissionData.email,
+              phone: submissionData.phone,
+              languageDirection: submissionData.language_direction,
+              message: submissionData.message,
+              fileUrls: submissionData.file_urls
+            })
+          });
+
+          if (!emailResponse.ok) {
+            console.error('Email notification failed:', await emailResponse.text());
+          }
+        } catch (emailError) {
+          console.error('Email notification error:', emailError);
+          // Don't fail the form submission if email fails
+        }
+
         // Success
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
