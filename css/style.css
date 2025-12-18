@@ -617,15 +617,15 @@ p {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.08;
+  opacity: 0.25;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Dark mode: slightly more visible */
+/* Dark mode: inverted SVG with suitable opacity */
 [data-theme="dark"] .hero::after {
-  opacity: 0.12;
   filter: invert(1);
+  opacity: 0.15;
 }
 
 .hero-content {
@@ -1676,7 +1676,7 @@ p {
     width: 300px;
     height: 100px;
     right: 0;
-    opacity: 0.05;
+    opacity: 0.15;
   }
 
   .hero-title {
