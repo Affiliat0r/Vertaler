@@ -695,6 +695,11 @@ p {
   display: inline;
 }
 
+/* When typewriter is on h1.hero-title, keep it block for min-height to work */
+h1.typewriter {
+  display: block;
+}
+
 .typewriter-cursor {
   display: inline-block;
   width: 3px;
