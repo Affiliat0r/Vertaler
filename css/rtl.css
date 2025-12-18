@@ -59,10 +59,7 @@
   left: -10%;
 }
 
-[dir="rtl"] .hero::after {
-  left: auto;
-  right: -10%;
-}
+/* Background image should stay centered in RTL, no override needed */
 
 [dir="rtl"] .hero-content {
   text-align: right;
