@@ -625,8 +625,8 @@ p {
 
 /* Dark mode: white bismillah on dark background */
 [data-theme="dark"] .hero::after {
-  filter: invert(1) brightness(5);
-  opacity: 0.25;
+  filter: invert(1) brightness(10);
+  opacity: 0.35;
 }
 
 .hero-content {
