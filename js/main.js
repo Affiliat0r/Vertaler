@@ -604,6 +604,7 @@
 
   /**
    * Typewriter effect for hero title
+   * Uses substring approach to preserve Arabic letter connections
    */
   function initTypewriter() {
     var element = document.querySelector('.typewriter');
@@ -611,6 +612,10 @@
 
     var text = element.textContent;
     element.textContent = '';
+
+    // Create text span to hold the typed text
+    var textSpan = document.createElement('span');
+    element.appendChild(textSpan);
 
     // Create cursor element
     var cursor = document.createElement('span');
@@ -621,11 +626,13 @@
     var speed = 80; // ms per character
 
     function type() {
-      if (index < text.length) {
-        // Insert character before cursor
-        cursor.insertAdjacentText('beforebegin', text.charAt(index));
+      if (index <= text.length) {
+        // Use substring to preserve Arabic letter connections
+        textSpan.textContent = text.substring(0, index);
         index++;
-        setTimeout(type, speed);
+        if (index <= text.length) {
+          setTimeout(type, speed);
+        }
       }
       // Keep cursor blinking infinitely after typing is done
     }
