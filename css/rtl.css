@@ -399,4 +399,49 @@
   [dir="rtl"] .whatsapp-float {
     left: 16px;
   }
+
+  /* Footer mobile RTL - right-align all elements */
+  [dir="rtl"] .footer-brand {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  [dir="rtl"] .footer-brand .logo-footer {
+    justify-content: flex-end;
+  }
+
+  [dir="rtl"] .footer-brand .logo-text {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  [dir="rtl"] .footer-brand p {
+    text-align: right;
+  }
+
+  [dir="rtl"] .footer-column {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  [dir="rtl"] .footer-links {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  [dir="rtl"] .footer-contact-item {
+    justify-content: flex-end;
+  }
+
+  [dir="rtl"] .footer-credentials {
+    align-items: flex-end;
+  }
+
+  [dir="rtl"] .footer-bottom {
+    text-align: right;
+  }
+
+  [dir="rtl"] .footer-bottom p {
+    text-align: right;
+  }
 }
