@@ -1099,6 +1099,23 @@ h1.typewriter {
   position: relative;
 }
 
+/* Theme-based about image switching */
+.about-img-light {
+  display: block;
+}
+
+.about-img-dark {
+  display: none;
+}
+
+[data-theme="dark"] .about-img-light {
+  display: none;
+}
+
+[data-theme="dark"] .about-img-dark {
+  display: block;
+}
+
 .about-image-placeholder {
   width: 100%;
   aspect-ratio: 1;
