@@ -1718,7 +1718,9 @@ p {
   }
 
   .hero-title {
-    min-height: auto;
+    /* Fixed height to prevent layout shift during typewriter animation */
+    /* Accommodates ~3 lines: font-size (2.25rem) * line-height (1.2) * 3 lines */
+    min-height: 8.5rem;
   }
 
   .hero-buttons {
