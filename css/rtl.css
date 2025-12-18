@@ -209,7 +209,7 @@
    Footer RTL
    -------------------------------------------------------------------------- */
 [dir="rtl"] .footer-content {
-  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-columns: 2fr 1fr 1fr;
   direction: rtl;
 }
 
@@ -217,21 +217,50 @@
   text-align: right;
 }
 
+[dir="rtl"] .footer-brand .logo-footer {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-brand .logo-text {
+  align-items: flex-end;
+  text-align: right;
+}
+
+[dir="rtl"] .footer-brand p {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-column {
+  text-align: right;
+}
+
+[dir="rtl"] .footer-title {
+  text-align: right;
+}
+
 [dir="rtl"] .footer-links {
   text-align: right;
+  align-items: flex-end;
 }
 
 [dir="rtl"] .footer-contact-item {
   flex-direction: row-reverse;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 [dir="rtl"] .footer-credentials {
   align-items: flex-end;
+  text-align: right;
 }
 
 [dir="rtl"] .footer-bottom {
   flex-direction: row-reverse;
+  text-align: right;
+}
+
+[dir="rtl"] .footer-bottom p {
+  text-align: right;
 }
 
 [dir="rtl"] .footer-payment {

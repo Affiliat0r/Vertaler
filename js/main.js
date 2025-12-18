@@ -626,12 +626,8 @@
         cursor.insertAdjacentText('beforebegin', text.charAt(index));
         index++;
         setTimeout(type, speed);
-      } else {
-        // Remove cursor after typing is done
-        setTimeout(function() {
-          cursor.remove();
-        }, 1500);
       }
+      // Keep cursor blinking infinitely after typing is done
     }
 
     // Start typing after a short delay
