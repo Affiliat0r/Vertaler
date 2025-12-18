@@ -608,12 +608,24 @@ p {
 .hero::after {
   content: '';
   position: absolute;
-  bottom: -30%;
-  left: -10%;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
   width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
-  border-radius: 50%;
+  height: 180px;
+  background-image: url('../images/bismillah-910299.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Dark mode: slightly more visible */
+[data-theme="dark"] .hero::after {
+  opacity: 0.12;
+  filter: invert(1);
 }
 
 .hero-content {
@@ -1658,6 +1670,13 @@ p {
   .hero {
     min-height: auto;
     padding: calc(70px + var(--spacing-2xl)) 0 var(--spacing-2xl);
+  }
+
+  .hero::after {
+    width: 300px;
+    height: 100px;
+    right: 0;
+    opacity: 0.05;
   }
 
   .hero-title {
