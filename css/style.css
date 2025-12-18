@@ -1724,7 +1724,14 @@ h1.typewriter {
 
   .hero-title {
     /* Fixed height to prevent layout shift during typewriter animation */
+    /* NL has longer text, EN/AR are shorter */
     min-height: 11.5rem;
+  }
+
+  /* English and Arabic pages have shorter hero titles */
+  html[lang="en"] .hero-title,
+  html[lang="ar"] .hero-title {
+    min-height: 5.75rem;
   }
 
   .hero-buttons {
