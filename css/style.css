@@ -633,7 +633,7 @@ p {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.15;
+  opacity: 0.08;
   pointer-events: none;
   z-index: 0;
 }
@@ -1708,7 +1708,7 @@ p {
     width: 100%;
     max-width: none;
     height: 400px;
-    opacity: 0.03;
+    opacity: 0.015;
   }
 
   /* Mobile dark mode */
