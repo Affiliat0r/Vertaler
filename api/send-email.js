@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL || 'marwanmrait@gmail.com';
+  const RECIPIENT_EMAIL = 'marwanmrait@gmail.com';
 
   if (!RESEND_API_KEY) {
     console.error('RESEND_API_KEY not configured');
@@ -56,7 +56,10 @@ export default async function handler(req, res) {
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Bestanden</td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${fileUrls?.length > 0 ? fileUrls.join('<br>') : 'Geen bestanden'}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${fileUrls?.length > 0 ? fileUrls.map((url, i) => {
+            const fileName = url.split('/').pop();
+            return `<a href="${url}" target="_blank" style="color: #1a73e8; text-decoration: underline;">📎 ${fileName}</a>`;
+          }).join('<br>') : 'Geen bestanden'}</td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Datum</td>
@@ -76,7 +79,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Al-Bayaan Vertalingen <onboarding@resend.dev>',
+        from: 'Al-Bayaan Vertalingen <noreply@albayaanvertalingen.nl>',
         to: [RECIPIENT_EMAIL],
         subject: `Nieuwe offerte aanvraag van ${name}`,
         html: emailHtml,

@@ -7,23 +7,24 @@
    CSS Custom Properties (Design Tokens)
    -------------------------------------------------------------------------- */
 :root {
-  /* Colors - Dark Mode with Yellow Accent */
-  --color-primary: #000000;         /* Pure black */
-  --color-primary-light: #1a1a1a;   /* Charcoal for cards */
-  --color-primary-dark: #000000;
-  --color-accent: #FFD700;          /* Bright yellow */
-  --color-accent-light: #FFDD33;
-  --color-accent-dark: #E6C200;
-  --color-accent-glow: rgba(255, 215, 0, 0.4);
+  /* Colors - Light Mode (Default) with Yellow Accent */
+  --color-primary: #ffffff;
+  --color-primary-light: #f8f9fa;
+  --color-primary-dark: #f1f3f5;
+  --color-accent: #d4a800;          /* Darker gold for light mode contrast */
+  --color-accent-light: #e6b800;
+  --color-accent-dark: #b8960f;
+  --color-accent-glow: rgba(212, 168, 0, 0.3);
 
-  --color-text: #ffffff;            /* White text */
-  --color-text-light: #e5e5e5;      /* Light gray text */
-  --color-text-muted: #9ca3af;      /* Muted gray */
+  --color-text: #1a1a1a;            /* Dark text */
+  --color-text-light: #374151;      /* Medium dark text */
+  --color-text-muted: #6b7280;      /* Muted gray */
+  --color-text-inverse: #ffffff;    /* For dark backgrounds */
 
-  --color-bg: #000000;              /* Black background */
-  --color-bg-alt: #0a0a0a;          /* Slightly lighter black */
-  --color-bg-dark: #111111;         /* Dark gray */
-  --color-bg-card: #1a1a1a;         /* Card background */
+  --color-bg: #ffffff;              /* White background */
+  --color-bg-alt: #f8f9fa;          /* Very light gray */
+  --color-bg-dark: #f1f3f5;         /* Light gray */
+  --color-bg-card: #ffffff;         /* White cards with border */
 
   --color-white: #ffffff;
   --color-black: #000000;
@@ -31,9 +32,16 @@
   --color-success: #22c55e;
   --color-whatsapp: #075E54;
 
-  /* Border colors for dark mode */
-  --color-border: #2a2a2a;
-  --color-border-light: #333333;
+  /* Border colors for light mode */
+  --color-border: #e5e7eb;
+  --color-border-light: #d1d5db;
+
+  /* Header scroll background */
+  --color-header-scrolled: rgba(255, 255, 255, 0.95);
+
+  /* Footer text opacity colors */
+  --color-footer-text: #4b5563;
+  --color-footer-text-muted: #6b7280;
 
   /* Typography */
   --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -93,6 +101,58 @@
   /* Container */
   --container-max: 1200px;
   --container-padding: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Dark Mode Theme
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  /* Colors - Dark Mode with Yellow Accent */
+  --color-primary: #000000;
+  --color-primary-light: #1a1a1a;
+  --color-primary-dark: #000000;
+  --color-accent: #FFD700;          /* Bright yellow for dark mode */
+  --color-accent-light: #FFDD33;
+  --color-accent-dark: #E6C200;
+  --color-accent-glow: rgba(255, 215, 0, 0.4);
+
+  --color-text: #ffffff;            /* White text */
+  --color-text-light: #e5e5e5;
+  --color-text-muted: #9ca3af;
+  --color-text-inverse: #000000;
+
+  --color-bg: #000000;              /* Black background */
+  --color-bg-alt: #0a0a0a;
+  --color-bg-dark: #111111;
+  --color-bg-card: #1a1a1a;
+
+  /* Border colors for dark mode */
+  --color-border: #2a2a2a;
+  --color-border-light: #333333;
+
+  /* Header scroll background */
+  --color-header-scrolled: rgba(0, 0, 0, 0.95);
+
+  /* Footer text colors */
+  --color-footer-text: rgba(255, 255, 255, 0.7);
+  --color-footer-text-muted: rgba(255, 255, 255, 0.5);
+}
+
+/* Theme transition for smooth switching */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body,
+.header,
+.nav-menu,
+.benefit-card,
+.faq-item,
+.contact-form,
+.pricing-card,
+.express-card,
+.footer {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 /* --------------------------------------------------------------------------
@@ -163,7 +223,7 @@ input, textarea, select {
 h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 h1 { font-size: var(--font-size-4xl); }
@@ -244,7 +304,7 @@ p {
 }
 
 .header.scrolled {
-  background: rgba(0, 0, 0, 0.95);
+  background: var(--color-header-scrolled);
   backdrop-filter: blur(10px);
 }
 
@@ -280,7 +340,7 @@ p {
   font-family: var(--font-logo);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-white);
+  color: var(--color-text);
   white-space: nowrap;
 }
 
@@ -298,11 +358,11 @@ p {
 }
 
 .logo-footer .logo-name {
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .logo-footer .logo-motto {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-footer-text);
 }
 
 .nav-menu {
@@ -337,7 +397,7 @@ p {
 }
 
 .nav-link:hover {
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 /* Language Switcher */
@@ -402,7 +462,7 @@ p {
 .menu-toggle span {
   width: 24px;
   height: 2px;
-  background: var(--color-white);
+  background: var(--color-text);
   transition: all var(--transition-fast);
 }
 
@@ -444,7 +504,7 @@ p {
 
 .btn-accent {
   background: var(--color-bg-card);
-  color: var(--color-white);
+  color: var(--color-text);
   border: 1px solid var(--color-border);
 }
 
@@ -457,7 +517,7 @@ p {
 
 .btn-outline {
   background: transparent;
-  color: var(--color-white);
+  color: var(--color-text);
   border: 2px solid var(--color-border);
 }
 
@@ -591,7 +651,7 @@ p {
 .hero h1 {
   font-size: var(--font-size-5xl);
   margin-bottom: var(--spacing-lg);
-  color: var(--color-white);
+  color: var(--color-text);
   font-weight: var(--font-weight-bold);
 }
 
@@ -700,7 +760,7 @@ p {
 .benefit-card h3 {
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-sm);
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .benefit-card p {
@@ -832,7 +892,7 @@ p {
 .process-step h3 {
   font-size: var(--font-size-base);
   margin-bottom: var(--spacing-sm);
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .process-step p {
@@ -925,7 +985,7 @@ p {
   border-radius: var(--radius-xl);
   padding: var(--spacing-3xl);
   text-align: center;
-  color: var(--color-white);
+  color: var(--color-text);
   max-width: 700px;
   margin: 0 auto;
   box-shadow: 0 0 30px var(--color-accent-glow);
@@ -1088,7 +1148,7 @@ p {
   padding: var(--spacing-lg);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-white);
+  color: var(--color-text);
   text-align: left;
   transition: background var(--transition-fast);
 }
@@ -1177,7 +1237,7 @@ p {
 
 .contact-method-text {
   font-weight: var(--font-weight-medium);
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .contact-method-label {
@@ -1320,7 +1380,7 @@ p {
    -------------------------------------------------------------------------- */
 .footer {
   background: var(--color-bg);
-  color: var(--color-white);
+  color: var(--color-text);
   padding: var(--spacing-3xl) 0 var(--spacing-xl);
   font-family: var(--font-primary);
   border-top: 1px solid var(--color-border);
@@ -1336,13 +1396,13 @@ p {
 }
 
 .footer-brand .logo {
-  color: var(--color-white);
+  color: var(--color-text);
   margin-bottom: var(--spacing-md);
   display: inline-flex;
 }
 
 .footer-brand p {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-footer-text);
   font-size: var(--font-size-sm);
   margin-bottom: var(--spacing-md);
 }
@@ -1352,14 +1412,14 @@ p {
   flex-direction: column;
   gap: var(--spacing-sm);
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-footer-text);
 }
 
 .footer-title {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   margin-bottom: var(--spacing-lg);
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .footer-links {
@@ -1369,20 +1429,20 @@ p {
 }
 
 .footer-links a {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-footer-text);
   font-size: var(--font-size-sm);
   transition: color var(--transition-fast);
 }
 
 .footer-links a:hover {
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .footer-contact-item {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-footer-text);
   font-size: var(--font-size-sm);
   margin-bottom: var(--spacing-sm);
 }
@@ -1398,7 +1458,7 @@ p {
   justify-content: space-between;
   align-items: center;
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--color-footer-text-muted);
 }
 
 .footer-payment {
@@ -1684,6 +1744,86 @@ p {
 @media (min-width: 769px) {
   .whatsapp-float-text {
     display: inline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Theme Toggle Button
+   -------------------------------------------------------------------------- */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-text);
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-accent);
+  background: var(--color-bg-card);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--transition-fast);
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Sun icon (shown in dark mode) */
+.theme-toggle .icon-sun {
+  display: none;
+}
+
+/* Moon icon (shown in light mode) */
+.theme-toggle .icon-moon {
+  display: block;
+}
+
+/* In dark mode, show sun and hide moon */
+[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+
+/* Theme toggle in header (desktop) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Mobile theme toggle */
+@media (max-width: 1024px) {
+  .theme-toggle-desktop {
+    display: none;
+  }
+
+  .theme-toggle-mobile {
+    display: flex;
+  }
+}
+
+@media (min-width: 1025px) {
+  .theme-toggle-desktop {
+    display: flex;
+  }
+
+  .theme-toggle-mobile {
+    display: none;
   }
 }
 

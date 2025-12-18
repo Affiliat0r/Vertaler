@@ -24,7 +24,52 @@
     initContactForm();
     initAnimations();
     initTypewriter();
+    initTheme();
   });
+
+  /**
+   * Initialize theme toggle functionality
+   */
+  function initTheme() {
+    const themeToggle = document.getElementById('themeToggle');
+    const themeToggleMobile = document.getElementById('themeToggleMobile');
+
+    // Determine the base path for images (different for subfolders)
+    const isSubfolder = window.location.pathname.includes('/en/') || window.location.pathname.includes('/ar/');
+    const imgBasePath = isSubfolder ? '../images/' : 'images/';
+
+    function updateLogos(theme) {
+      const logoImages = document.querySelectorAll('.logo-icon');
+      const logoSrc = theme === 'dark'
+        ? imgBasePath + 'logo-vectorized.svg'
+        : imgBasePath + 'logo-vectorized-light.svg';
+
+      logoImages.forEach(img => {
+        img.src = logoSrc;
+      });
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateLogos(newTheme);
+    }
+
+    // Update logos on initial load based on current theme
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    updateLogos(currentTheme);
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    if (themeToggleMobile) {
+      themeToggleMobile.addEventListener('click', toggleTheme);
+    }
+  }
 
   /**
    * Initialize Supabase client
@@ -286,12 +331,12 @@
       const privacyCheckbox = document.getElementById('privacy');
       if (privacyCheckbox && !privacyCheckbox.checked) {
         isValid = false;
-        alert(getLocalizedText('pleaseAcceptPrivacy'));
+        showModal(getLocalizedText('pleaseAcceptPrivacy'));
         return;
       }
 
       if (!isValid) {
-        alert(getLocalizedText('fillRequiredFields'));
+        showModal(getLocalizedText('fillRequiredFields'));
         return;
       }
 
@@ -322,7 +367,9 @@
             if (error) {
               console.error('File upload error:', error);
             } else if (data) {
-              fileUrls.push(data.path);
+              // Construct full public URL for the uploaded file
+              const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/documents/${data.path}`;
+              fileUrls.push(publicUrl);
             }
           }
         }
@@ -386,7 +433,6 @@
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
 
-        alert(getLocalizedText('formSuccess'));
         form.reset();
 
         // Clear file list
@@ -395,8 +441,11 @@
           fileList.innerHTML = '';
         }
 
+        // Show success message, then ask about WhatsApp
+        await showModal(getLocalizedText('formSuccess'));
+
         // Optional: Open WhatsApp with pre-filled message
-        const openWhatsApp = confirm(getLocalizedText('openWhatsApp'));
+        const openWhatsApp = await showModal(getLocalizedText('openWhatsApp'), 'confirm');
         if (openWhatsApp) {
           const name = submissionData.name;
           const langDir = submissionData.language_direction || '';
@@ -412,7 +461,7 @@
         submitBtn.disabled = false;
 
         // Fallback: Open WhatsApp directly if Supabase fails
-        const confirmWhatsApp = confirm(getLocalizedText('submissionErrorWhatsApp'));
+        const confirmWhatsApp = await showModal(getLocalizedText('submissionErrorWhatsApp'), 'confirm');
         if (confirmWhatsApp) {
           const name = formData.get('name');
           const email = formData.get('email');
@@ -468,6 +517,90 @@
 
     return texts[lang]?.[key] || texts.nl[key] || key;
   }
+
+  /**
+   * Custom modal dialog (replaces browser alert/confirm)
+   * @param {string} message - The message to display
+   * @param {string} type - 'alert' or 'confirm'
+   * @returns {Promise<boolean>} - Resolves to true/false for confirm, always true for alert
+   */
+  function showModal(message, type = 'alert') {
+    return new Promise((resolve) => {
+      // Create modal overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'custom-modal-overlay';
+
+      // Create modal container
+      const modal = document.createElement('div');
+      modal.className = 'custom-modal';
+
+      // Create message
+      const messageEl = document.createElement('p');
+      messageEl.className = 'custom-modal-message';
+      messageEl.textContent = message;
+
+      // Create button container
+      const buttonContainer = document.createElement('div');
+      buttonContainer.className = 'custom-modal-buttons';
+
+      // OK button
+      const okBtn = document.createElement('button');
+      okBtn.className = 'custom-modal-btn custom-modal-btn-primary';
+      okBtn.textContent = 'OK';
+      okBtn.onclick = () => {
+        closeModal();
+        resolve(true);
+      };
+
+      buttonContainer.appendChild(okBtn);
+
+      // Cancel button (only for confirm)
+      if (type === 'confirm') {
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'custom-modal-btn custom-modal-btn-secondary';
+        const lang = document.documentElement.lang || 'nl';
+        cancelBtn.textContent = lang === 'ar' ? 'إلغاء' : (lang === 'en' ? 'Cancel' : 'Annuleren');
+        cancelBtn.onclick = () => {
+          closeModal();
+          resolve(false);
+        };
+        buttonContainer.insertBefore(cancelBtn, okBtn);
+      }
+
+      modal.appendChild(messageEl);
+      modal.appendChild(buttonContainer);
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      // Focus OK button
+      okBtn.focus();
+
+      // Close on escape key
+      const handleKeydown = (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+          resolve(type === 'confirm' ? false : true);
+        }
+      };
+      document.addEventListener('keydown', handleKeydown);
+
+      function closeModal() {
+        document.removeEventListener('keydown', handleKeydown);
+        overlay.classList.add('closing');
+        setTimeout(() => {
+          overlay.remove();
+        }, 200);
+      }
+
+      // Animate in
+      requestAnimationFrame(() => {
+        overlay.classList.add('active');
+      });
+    });
+  }
+
+  // Make showModal available globally for form handling
+  window.showModal = showModal;
 
   /**
    * Typewriter effect for hero title
@@ -577,6 +710,97 @@
 
       .menu-toggle.active span:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -6px);
+      }
+
+      /* Custom Modal Styles */
+      .custom-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .custom-modal-overlay.active {
+        opacity: 1;
+      }
+
+      .custom-modal-overlay.closing {
+        opacity: 0;
+      }
+
+      .custom-modal {
+        background: #111;
+        border: 2px solid #FFD700;
+        border-radius: 12px;
+        padding: 2rem;
+        max-width: 90%;
+        width: 400px;
+        text-align: center;
+        transform: scale(0.9);
+        transition: transform 0.2s ease;
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      }
+
+      .custom-modal-overlay.active .custom-modal {
+        transform: scale(1);
+      }
+
+      .custom-modal-message {
+        color: #fff;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0 0 1.5rem 0;
+      }
+
+      .custom-modal-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .custom-modal-btn {
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+      }
+
+      .custom-modal-btn-primary {
+        background: #FFD700;
+        color: #000;
+        border-color: #FFD700;
+      }
+
+      .custom-modal-btn-primary:hover {
+        background: #fff;
+        border-color: #fff;
+      }
+
+      .custom-modal-btn-secondary {
+        background: transparent;
+        color: #fff;
+        border-color: #666;
+      }
+
+      .custom-modal-btn-secondary:hover {
+        border-color: #FFD700;
+        color: #FFD700;
+      }
+
+      .custom-modal-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.5);
       }
     `;
     document.head.appendChild(style);
