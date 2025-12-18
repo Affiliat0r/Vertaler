@@ -612,21 +612,21 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  max-width: 900px;
-  height: 250px;
+  max-width: 1200px;
+  height: 400px;
   background-image: url('../images/background.svg');
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.25;
+  opacity: 0.15;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Dark mode: white bismillah on dark background */
+/* Dark mode: invert the background */
 [data-theme="dark"] .hero::after {
-  filter: invert(1) brightness(10);
-  opacity: 0.35;
+  filter: invert(1);
+  opacity: 0.15;
 }
 
 .hero-content {
@@ -1676,14 +1676,14 @@ p {
   .hero::after {
     width: 100%;
     max-width: none;
-    height: 120px;
-    opacity: 0.2;
+    height: 200px;
+    opacity: 0.1;
   }
 
-  /* Mobile dark mode: brighter white bismillah */
+  /* Mobile dark mode */
   [data-theme="dark"] .hero::after {
-    filter: invert(1) brightness(15);
-    opacity: 0.5;
+    filter: invert(1);
+    opacity: 0.15;
   }
 
   .hero-title {
