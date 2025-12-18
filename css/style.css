@@ -1680,6 +1680,12 @@ p {
     opacity: 0.2;
   }
 
+  /* Mobile dark mode: brighter white bismillah */
+  [data-theme="dark"] .hero::after {
+    filter: invert(1) brightness(15);
+    opacity: 0.5;
+  }
+
   .hero-title {
     min-height: auto;
   }
