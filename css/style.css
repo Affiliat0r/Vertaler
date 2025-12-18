@@ -1676,7 +1676,7 @@ p {
   .hero::after {
     width: 100%;
     max-width: none;
-    height: 200px;
+    height: 400px;
     opacity: 0.1;
   }
 
