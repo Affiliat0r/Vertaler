@@ -1724,7 +1724,7 @@ h1.typewriter {
 
   .hero-title {
     /* Fixed height to prevent layout shift during typewriter animation */
-    min-height: 9.5rem;
+    min-height: 10.5rem;
   }
 
   .hero-buttons {
