@@ -401,22 +401,33 @@
   }
 
   /* Footer mobile RTL - right-align all elements */
+  [dir="rtl"] .footer-content {
+    text-align: right;
+  }
+
   [dir="rtl"] .footer-brand {
     text-align: right;
-    align-items: flex-end;
   }
 
   [dir="rtl"] .footer-brand .logo-footer {
-    justify-content: flex-end;
+    align-items: flex-end;
   }
 
   [dir="rtl"] .footer-brand .logo-text {
     align-items: flex-end;
+  }
+
+  [dir="rtl"] .footer-brand .logo-name,
+  [dir="rtl"] .footer-brand .logo-motto {
     text-align: right;
   }
 
   [dir="rtl"] .footer-brand p {
     text-align: right;
+  }
+
+  [dir="rtl"] .footer-credentials {
+    justify-content: flex-end;
   }
 
   [dir="rtl"] .footer-column {
@@ -431,10 +442,6 @@
 
   [dir="rtl"] .footer-contact-item {
     justify-content: flex-end;
-  }
-
-  [dir="rtl"] .footer-credentials {
-    align-items: flex-end;
   }
 
   [dir="rtl"] .footer-bottom {
