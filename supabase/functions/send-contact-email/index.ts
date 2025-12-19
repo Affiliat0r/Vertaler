@@ -1,11 +1,10 @@
 // Supabase Edge Function to send email notifications for contact form submissions
-// Uses Resend API to send emails to marwanmrait@gmail.com
+// Uses Resend API to send emails to both marwanmrait@gmail.com and hasan.atesci90@gmail.com
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts"
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
-// TODO: Change back to 'marwanmrait@gmail.com' after verifying domain in Resend
-const RECIPIENT_EMAIL = Deno.env.get('RECIPIENT_EMAIL') || 'marwanmrait@gmail.com'
+const RECIPIENT_EMAILS = ['marwanmrait@gmail.com', 'hasan.atesci90@gmail.com']
 
 interface ContactSubmission {
   id: string
@@ -109,7 +108,7 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         from: 'Al-Bayaan Vertalingen <onboarding@resend.dev>',
-        to: [RECIPIENT_EMAIL],
+        to: RECIPIENT_EMAILS,
         subject: `Nieuwe offerte aanvraag van ${submission.name}`,
         html: emailHtml,
         reply_to: submission.email,
