@@ -335,6 +335,17 @@
         return;
       }
 
+      // Check that source and target language are different
+      const sourceLangSelect = document.getElementById('source-lang');
+      const targetLangSelect = document.getElementById('target-lang');
+      if (sourceLangSelect && targetLangSelect &&
+          sourceLangSelect.value && targetLangSelect.value &&
+          sourceLangSelect.value === targetLangSelect.value) {
+        isValid = false;
+        showModal(getLocalizedText('sameLanguageError'));
+        return;
+      }
+
       if (!isValid) {
         showModal(getLocalizedText('fillRequiredFields'));
         return;
@@ -452,7 +463,7 @@
           const message = encodeURIComponent(
             `Hallo, ik wil graag een vertaling aanvragen.\n\nNaam: ${name}\nRichting: ${langDir}`
           );
-          window.open(`https://wa.me/31649815585?text=${message}`, '_blank');
+          window.open(`https://wa.me/31610218737?text=${message}`, '_blank');
         }
 
       } catch (error) {
@@ -469,7 +480,7 @@
           const whatsappMessage = encodeURIComponent(
             `Hallo, ik wil graag een vertaling aanvragen.\n\nNaam: ${name}\nEmail: ${email}\nBericht: ${messageText}`
           );
-          window.open(`https://wa.me/31649815585?text=${whatsappMessage}`, '_blank');
+          window.open(`https://wa.me/31610218737?text=${whatsappMessage}`, '_blank');
         }
       }
     });
@@ -492,6 +503,7 @@
       nl: {
         pleaseAcceptPrivacy: 'Ga akkoord met de privacyverklaring om door te gaan.',
         fillRequiredFields: 'Vul alle verplichte velden in.',
+        sameLanguageError: 'Bron- en doeltaal mogen niet hetzelfde zijn.',
         sending: 'Versturen...',
         formSuccess: 'Bedankt voor uw aanvraag! U ontvangt zo snel mogelijk een reactie.',
         openWhatsApp: 'Wilt u ook via WhatsApp contact opnemen voor een snellere reactie?',
@@ -500,6 +512,7 @@
       en: {
         pleaseAcceptPrivacy: 'Please accept the privacy policy to continue.',
         fillRequiredFields: 'Please fill in all required fields.',
+        sameLanguageError: 'Source and target language cannot be the same.',
         sending: 'Sending...',
         formSuccess: 'Thank you for your request! You will receive a response as soon as possible.',
         openWhatsApp: 'Would you also like to contact via WhatsApp for a faster response?',
@@ -508,6 +521,7 @@
       ar: {
         pleaseAcceptPrivacy: 'يرجى الموافقة على سياسة الخصوصية للمتابعة.',
         fillRequiredFields: 'يرجى ملء جميع الحقول المطلوبة.',
+        sameLanguageError: 'لا يمكن أن تكون لغة المصدر والهدف متطابقتين.',
         sending: 'جاري الإرسال...',
         formSuccess: 'شكراً لطلبك! ستتلقى رداً في أقرب وقت ممكن.',
         openWhatsApp: 'هل تريد أيضاً التواصل عبر واتساب للحصول على رد أسرع؟',
