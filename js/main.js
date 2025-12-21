@@ -25,6 +25,7 @@
     initAnimations();
     initTypewriter();
     initTheme();
+    initLanguageSync();
   });
 
   /**
@@ -69,6 +70,35 @@
     if (themeToggleMobile) {
       themeToggleMobile.addEventListener('click', toggleTheme);
     }
+  }
+
+  /**
+   * Dynamic language selection synchronization
+   * When Arabic is selected in one dropdown, the other is set to Dutch and vice versa
+   */
+  function initLanguageSync() {
+    const sourceLang = document.getElementById('source-lang');
+    const targetLang = document.getElementById('target-lang');
+
+    if (!sourceLang || !targetLang) return;
+
+    // When source language changes, set target to the opposite
+    sourceLang.addEventListener('change', function() {
+      if (this.value === 'arabic') {
+        targetLang.value = 'dutch';
+      } else if (this.value === 'dutch') {
+        targetLang.value = 'arabic';
+      }
+    });
+
+    // When target language changes, set source to the opposite
+    targetLang.addEventListener('change', function() {
+      if (this.value === 'arabic') {
+        sourceLang.value = 'dutch';
+      } else if (this.value === 'dutch') {
+        sourceLang.value = 'arabic';
+      }
+    });
   }
 
   /**
