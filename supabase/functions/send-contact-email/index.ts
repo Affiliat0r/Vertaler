@@ -1,10 +1,9 @@
-// Supabase Edge Function to send email notifications for contact form submissions
-// Uses Resend API to send emails to both marwanmrait@gmail.com and hasan.atesci90@gmail.com
+// Supabase Edge Function to trigger the translation pipeline on new contact submissions
+// The translation pipeline will send the email with the DOCX attachment
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts"
 
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
-const RECIPIENT_EMAILS = ['marwanmrait@gmail.com', 'hasan.atesci90@gmail.com']
+const TRANSLATION_WEBHOOK_URL = 'https://albayaan-translator-production.up.railway.app/webhook'
 
 interface ContactSubmission {
   id: string
@@ -41,14 +40,6 @@ Deno.serve(async (req) => {
       })
     }
 
-    if (!RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not set')
-      return new Response(
-        JSON.stringify({ error: 'Email service not configured' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      )
-    }
-
     const payload: WebhookPayload = await req.json()
 
     // Only process INSERT events
@@ -60,74 +51,28 @@ Deno.serve(async (req) => {
     }
 
     const submission = payload.record
+    console.log(`New submission received: ${submission.id} from ${submission.name}`)
 
-    // Format the email HTML
-    const emailHtml = `
-      <h2>Nieuwe offerte aanvraag - Al-Bayaan Vertalingen</h2>
-      <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
-        <tr>
-          <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Naam</td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${submission.name}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">E-mail</td>
-          <td style="padding: 10px; border: 1px solid #ddd;"><a href="mailto:${submission.email}">${submission.email}</a></td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Telefoon</td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${submission.phone || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Taalrichting</td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${submission.language_direction || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Bericht</td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${submission.message || '-'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Bestanden</td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${submission.file_urls?.length > 0 ? submission.file_urls.join('<br>') : 'Geen bestanden'}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Datum</td>
-          <td style="padding: 10px; border: 1px solid #ddd;">${new Date(submission.created_at).toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td>
-        </tr>
-      </table>
-      <p style="margin-top: 20px; color: #666;">
-        Dit bericht is automatisch verzonden via het contactformulier op albayaanvertalingen.nl
-      </p>
-    `
-
-    // Send email via Resend
-    const resendResponse = await fetch('https://api.resend.com/emails', {
+    // Trigger the translation pipeline (don't wait for completion)
+    // The pipeline will send the email with the translated DOCX
+    fetch(TRANSLATION_WEBHOOK_URL, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        from: 'Al-Bayaan Vertalingen <onboarding@resend.dev>',
-        to: RECIPIENT_EMAILS,
-        subject: `Nieuwe offerte aanvraag van ${submission.name}`,
-        html: emailHtml,
-        reply_to: submission.email,
-      }),
+      body: JSON.stringify(payload),
+    }).catch(err => {
+      console.error('Failed to trigger translation pipeline:', err)
     })
 
-    const resendData = await resendResponse.json()
+    console.log(`Translation pipeline triggered for submission ${submission.id}`)
 
-    if (!resendResponse.ok) {
-      console.error('Resend API error:', resendData)
-      return new Response(
-        JSON.stringify({ error: 'Failed to send email', details: resendData }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      )
-    }
-
-    console.log('Email sent successfully:', resendData)
     return new Response(
-      JSON.stringify({ success: true, emailId: resendData.id }),
+      JSON.stringify({
+        success: true,
+        message: 'Translation pipeline triggered',
+        submissionId: submission.id
+      }),
       { headers: { 'Content-Type': 'application/json' } }
     )
 

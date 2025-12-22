@@ -1,0 +1,33 @@
+{
+  "name": "document-translator",
+  "version": "1.0.0",
+  "description": "Translate official documents (marriage certificates, birth certificates, etc.) to Word format",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node server.js",
+    "cli": "node src/index.js",
+    "translate": "node src/index.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "document",
+    "translation",
+    "word",
+    "docx",
+    "certificate",
+    "marriage",
+    "birth"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.89.0",
+    "docx": "^8.5.0",
+    "dotenv": "^16.3.1",
+    "express": "^5.2.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
